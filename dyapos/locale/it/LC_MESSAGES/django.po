@@ -1,0 +1,654 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-18 19:52-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms/user.py:10
+msgid "A user with that username already exists."
+msgstr ""
+
+#: forms/user.py:11
+msgid "That email is already registered."
+msgstr ""
+
+#: forms/user.py:12
+msgid "The two password fields didn't match."
+msgstr ""
+
+#: forms/user.py:14
+msgid "Username"
+msgstr ""
+
+#: forms/user.py:17
+msgid "This value may contain only letters, numbers and ./+/-/_ characters."
+msgstr ""
+
+#: forms/user.py:20
+msgid "Password"
+msgstr ""
+
+#: forms/user.py:21
+msgid "Password confirmation"
+msgstr ""
+
+#: forms/user.py:90
+msgid "The email address is not registered"
+msgstr ""
+
+#: forms/user.py:106 forms/user.py:120
+msgid "Passwords don't match"
+msgstr ""
+
+#: forms/userpresentation.py:8
+msgid "Allow edit"
+msgstr ""
+
+#: forms/userpresentation.py:8
+msgid "View only"
+msgstr ""
+
+#: models/presentation.py:67
+msgid "Copy of"
+msgstr ""
+
+#: templates/base_home.html:18
+msgid "Home page"
+msgstr ""
+
+#: templates/base_home.html:18
+msgid "Home"
+msgstr ""
+
+#: templates/base_home.html:23
+msgid "View my profile"
+msgstr ""
+
+#: templates/base_home.html:23
+msgid "My user profile"
+msgstr ""
+
+#: templates/base_home.html:26 templates/settings.html:5
+#: templates/settings.html.py:13
+msgid "Settings"
+msgstr ""
+
+#: templates/base_home.html:29
+msgid "Close session"
+msgstr ""
+
+#: templates/base_home.html:29
+msgid "Logout"
+msgstr ""
+
+#: templates/base_home.html:35 templates/login.html:6
+#: templates/login.html.py:14 templates/login.html:25
+msgid "Login"
+msgstr ""
+
+#: templates/change_password.html:5 templates/change_password.html.py:12
+#: templates/change_password.html:30 templates/settings.html:34
+msgid "Change password"
+msgstr ""
+
+#: templates/change_password.html:20
+msgid "Old password"
+msgstr ""
+
+#: templates/change_password.html:23
+msgid "New password"
+msgstr ""
+
+#: templates/change_password.html:26
+msgid "Repeat new password"
+msgstr ""
+
+#: templates/edit.html:68
+msgid "New title"
+msgstr ""
+
+#: templates/edit.html:69
+msgid "New subtitle"
+msgstr ""
+
+#: templates/edit.html:70
+msgid "New body"
+msgstr ""
+
+#: templates/edit.html:101
+msgid "Add slide"
+msgstr ""
+
+#: templates/edit.html:103
+msgid "Navigation mode"
+msgstr ""
+
+#: templates/edit.html:105
+msgid "Change slide background color"
+msgstr ""
+
+#: templates/edit.html:109 templates/edit.html.py:316
+msgid "Helping notes"
+msgstr ""
+
+#: templates/edit.html:113
+msgid "Preview presentation"
+msgstr ""
+
+#: templates/edit.html:119
+msgid "Style"
+msgstr ""
+
+#: templates/edit.html:122 templates/edit.html.py:300
+msgid "Themes"
+msgstr ""
+
+#: templates/edit.html:126 templates/presentation.html:60
+msgid "Share"
+msgstr ""
+
+#: templates/edit.html:130 templates/presentation.html:65
+msgid "Download"
+msgstr ""
+
+#: templates/edit.html:133
+msgid "Options"
+msgstr ""
+
+#: templates/edit.html:136
+msgid "Exit"
+msgstr ""
+
+#: templates/edit.html:155
+msgid "Send message"
+msgstr ""
+
+#: templates/edit.html:166 templates/home.html:54
+#: templates/presentation.html:48
+msgid "Edit"
+msgstr ""
+
+#: templates/edit.html:171 templates/edit.html.py:213
+msgid "Size"
+msgstr ""
+
+#: templates/edit.html:178
+msgid "Rotation"
+msgstr ""
+
+#: templates/edit.html:179
+msgid "Rotate on Z axis"
+msgstr ""
+
+#: templates/edit.html:180
+msgid "Rotate on X axis"
+msgstr ""
+
+#: templates/edit.html:181
+msgid "Rotate on Y axis"
+msgstr ""
+
+#: templates/edit.html:186 templates/edit.html.py:368 templates/home.html:60
+msgid "Delete"
+msgstr ""
+
+#: templates/edit.html:191
+msgid "Add text"
+msgstr ""
+
+#: templates/edit.html:191
+msgid "Text"
+msgstr ""
+
+#: templates/edit.html:194
+msgid "Add title"
+msgstr ""
+
+#: templates/edit.html:194
+msgid "Title"
+msgstr ""
+
+#: templates/edit.html:197
+msgid "Add subtitle"
+msgstr ""
+
+#: templates/edit.html:197
+msgid "Subtitle"
+msgstr ""
+
+#: templates/edit.html:200
+msgid "Add body paragraph"
+msgstr ""
+
+#: templates/edit.html:200
+msgid "Body"
+msgstr ""
+
+#: templates/edit.html:204 templates/edit.html.py:262
+msgid "Add image"
+msgstr ""
+
+#: templates/edit.html:205 templates/edit.html.py:278
+msgid "Add video"
+msgstr ""
+
+#: templates/edit.html:211
+msgid "Increase size"
+msgstr ""
+
+#: templates/edit.html:212
+msgid "Decrease size"
+msgstr ""
+
+#: templates/edit.html:246
+msgid "Toggle bold"
+msgstr ""
+
+#: templates/edit.html:247
+msgid "Toggle underline"
+msgstr ""
+
+#: templates/edit.html:248
+msgid "Toggle italic"
+msgstr ""
+
+#: templates/edit.html:249
+msgid "Transform into link"
+msgstr ""
+
+#: templates/edit.html:250
+msgid "Change color"
+msgstr ""
+
+#: templates/edit.html:263
+msgid "Load image file"
+msgstr ""
+
+#: templates/edit.html:265
+msgid ""
+"Warning: Images are uploaded to Imgur.com service. This means that if you "
+"don't load them within 6 months will be deleted."
+msgstr ""
+
+#: templates/edit.html:266
+msgid "Or"
+msgstr ""
+
+#: templates/edit.html:267
+msgid "Load image URL"
+msgstr ""
+
+#: templates/edit.html:269
+msgid "Upload"
+msgstr ""
+
+#: templates/edit.html:281 templates/edit.html.py:295
+msgid "Add"
+msgstr ""
+
+#: templates/edit.html:304
+msgid "Custom themes"
+msgstr ""
+
+#: templates/edit.html:317
+msgid "This is shown by pressing 'p' key when you're presenting"
+msgstr ""
+
+#: templates/edit.html:320 templates/presentation.html:112
+msgid "Save"
+msgstr ""
+
+#: templates/edit.html:337
+msgid "save"
+msgstr ""
+
+#: templates/edit.html:353
+msgid "Drag to change the order"
+msgstr ""
+
+#: templates/edit.html:365
+msgid "Move"
+msgstr ""
+
+#: templates/edit.html:377
+msgid "Enter text..."
+msgstr ""
+
+#: templates/home.html:5
+msgid "home"
+msgstr ""
+
+#: templates/home.html:15 templates/home.html.py:106
+msgid "Create presentation"
+msgstr ""
+
+#: templates/home.html:15
+msgid "Create new"
+msgstr ""
+
+#: templates/home.html:18
+msgid "View all"
+msgstr ""
+
+#: templates/home.html:18
+msgid "All"
+msgstr ""
+
+#: templates/home.html:22
+msgid "View my own presentations"
+msgstr ""
+
+#: templates/home.html:22
+msgid "Own"
+msgstr ""
+
+#: templates/home.html:26
+msgid "View shared presentations"
+msgstr ""
+
+#: templates/home.html:26
+msgid "Shared with me"
+msgstr ""
+
+#: templates/home.html:35
+msgid "Search"
+msgstr ""
+
+#: templates/home.html:36
+msgid "Search by name"
+msgstr ""
+
+#: templates/home.html:49 templates/presentation.html:16
+msgid "Private presentation"
+msgstr ""
+
+#: templates/home.html:57
+msgid "View presentation"
+msgstr ""
+
+#: templates/home.html:60 templates/home.html.py:66
+msgid "Are you sure you want to delete the presentation?"
+msgstr ""
+
+#: templates/home.html:94
+msgid "Name"
+msgstr ""
+
+#: templates/home.html:96
+msgid "Description"
+msgstr ""
+
+#: templates/home.html:96
+msgid "Optional"
+msgstr ""
+
+#: templates/home.html:99
+msgid "It makes the presentation to be visible only for you and shared users"
+msgstr ""
+
+#: templates/home.html:114
+msgid "Welcome to Dyapos"
+msgstr ""
+
+#: templates/home.html:115
+msgid ""
+"Enter your public data which will be visible on your profile page if you want"
+msgstr ""
+
+#: templates/home.html:120 templates/settings.html:28
+msgid "Save changes"
+msgstr ""
+
+#: templates/index.html:17
+msgid "Welcome"
+msgstr ""
+
+#: templates/index.html:18
+msgid "to a new generation of digital presentations"
+msgstr ""
+
+#: templates/index.html:23
+msgid "Join to the experience"
+msgstr ""
+
+#: templates/index.html:33
+msgid "Learn more about the features of Dyapos"
+msgstr ""
+
+#: templates/index.html:34
+msgid "You'll love it!"
+msgstr ""
+
+#: templates/index.html:43
+msgid "Create and share online presentations"
+msgstr ""
+
+#: templates/index.html:48
+msgid "Edit in real-time and collaboratively with other users"
+msgstr ""
+
+#: templates/index.html:59
+msgid "View your presentations on any devices from a web browser"
+msgstr ""
+
+#: templates/index.html:64
+msgid "Don't need Flash Player anymore"
+msgstr ""
+
+#: templates/index.html:65
+msgid "Enjoy HTML5 + CSS3 features on your presentations!"
+msgstr ""
+
+#: templates/index.html:76
+msgid "Download your presentations and present offline"
+msgstr ""
+
+#: templates/index.html:81
+msgid "Dyapos is Free and Open Source Software"
+msgstr ""
+
+#: templates/index.html:82
+msgid ""
+"You can view the source code, modify it and contribute to the developer "
+"community freely"
+msgstr ""
+
+#: templates/index.html:100
+msgid "Contact us"
+msgstr ""
+
+#: templates/index.html:103
+msgid "Source code"
+msgstr ""
+
+#: templates/login.html:18
+msgid "Username or email:"
+msgstr ""
+
+#: templates/login.html:22
+msgid "Forgot your password?"
+msgstr ""
+
+#: templates/login.html:28
+msgid "Don't you have an account?"
+msgstr ""
+
+#: templates/login.html:28 templates/signup.html:5
+msgid "Signup"
+msgstr ""
+
+#: templates/presentation.html:16
+msgid "Click here to rename"
+msgstr ""
+
+#: templates/presentation.html:19 templates/presentation.html.py:98
+msgid "Rename"
+msgstr ""
+
+#: templates/presentation.html:25
+msgid "Click here to modify description"
+msgstr ""
+
+#: templates/presentation.html:28 templates/presentation.html.py:106
+msgid "Modify description"
+msgstr ""
+
+#: templates/presentation.html:32
+msgid "Created by"
+msgstr ""
+
+#: templates/presentation.html:35
+msgid "Date"
+msgstr ""
+
+#: templates/presentation.html:43
+msgid "Present"
+msgstr ""
+
+#: templates/presentation.html:54
+msgid "Copy"
+msgstr ""
+
+#: templates/presentation.html:72
+msgid "Like"
+msgstr ""
+
+#: templates/presentation.html:92
+msgid "Rename presentation"
+msgstr ""
+
+#: templates/recover_password.html:5 templates/recover_password.html.py:13
+msgid "Recover password"
+msgstr ""
+
+#: templates/recover_password.html:22
+msgid "Send recover email"
+msgstr ""
+
+#: templates/reset_password.html:6 templates/reset_password.html.py:12
+#: templates/reset_password.html:16
+msgid "Reset password"
+msgstr ""
+
+#: templates/settings.html:20
+msgid "Public information"
+msgstr ""
+
+#: templates/settings.html:24
+msgid "Account email"
+msgstr ""
+
+#: templates/settings.html:37 templates/settings.html.py:52
+msgid "Delete account"
+msgstr ""
+
+#: templates/settings.html:46
+msgid ""
+"Are you sure you want to delete your account and all data related to it?"
+msgstr ""
+
+#: templates/settings.html:49
+msgid "Warning: This operation cannot be undone"
+msgstr ""
+
+#: templates/settings.html:51
+msgid "Cancel"
+msgstr ""
+
+#: templates/share_form.html:5
+msgid "Share link"
+msgstr ""
+
+#: templates/share_form.html:14
+msgid "Invite to edit"
+msgstr ""
+
+#: templates/share_form.html:27
+msgid "Embed to webpage"
+msgstr ""
+
+#: templates/share_form.html:36
+msgid "Width"
+msgstr ""
+
+#: templates/share_form.html:38
+msgid "Height"
+msgstr ""
+
+#: templates/signup.html:12 templates/signup.html.py:19
+msgid "Register"
+msgstr ""
+
+#: templates/theme_edit.html:72
+msgid "Edit CSS Code"
+msgstr ""
+
+#: templates/theme_edit.html:73
+msgid "For advanced users"
+msgstr ""
+
+#: templates/theme_edit.html:81
+msgid "Back to easy editor"
+msgstr ""
+
+#: templates/theme_edit.html:85
+msgid "Save theme"
+msgstr ""
+
+#: templates/theme_edit.html:89
+msgid "Theme preview"
+msgstr ""
+
+#: templates/email/recovery_password.html:8 views/users.py:61
+msgid "Password recovery"
+msgstr ""
+
+#: templates/email/recovery_password.html:10
+msgid "Hi"
+msgstr ""
+
+#: templates/email/recovery_password.html:11
+msgid "You requested a password reset."
+msgstr ""
+
+#: templates/email/recovery_password.html:12
+msgid ""
+"To reset your password, open the following link and enter your new password:"
+msgstr ""
+
+#: templates/email/recovery_password.html:15
+msgid "If you didn't request a password reset, please ignore this email."
+msgstr ""
+
+#: views/presentations.py:75 views/presentations.py:116
+msgid "You reached the limit of created presentations."
+msgstr ""
+
+#: views/presentations.py:399
+msgid "A new presentation was added to your 'shared' items"
+msgstr ""
+
+#: views/presentations.py:403
+msgid "You are already joined to that presentation"
+msgstr ""
+
+#: views/users.py:69
+msgid "We've sent you an email with a reset password link"
+msgstr ""
+
+#: views/users.py:94
+msgid "Your password has been changed"
+msgstr ""

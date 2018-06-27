@@ -1,0 +1,122 @@
+{% load i18n %}
+
+<div class="row">
+	<div class="large-5 columns">
+		<h3>{% trans 'Share link' %}</h3>
+	</div>
+	<div class="large-7 columns">
+		<input type="text" value="http://{{host}}{% url 'presentation' presentation.key %}" />
+	</div>
+</div>
+<hr />
+<div class="row">
+	<div class="large-5 columns">
+		<h3>{% trans 'Invite to edit' %}</h3>
+	</div>
+	<div class="large-7 columns">
+		<h3>Available soon...</h3>
+		{%comment%}
+		<a id="link-generate-edit-link" href="{% url 'get-edit-link' presentation.id %}">{% trans 'Generate an edit link' %}</a>
+		<input id="edit-link" type="text" placeholder="{% trans 'Click on the link above' %}" />
+		{%endcomment%}
+	</div>
+</div>
+<hr />
+<div class="row">
+	<h3>{% trans 'Embed to webpage' %}</h3>
+	<div class="row">
+		<div class="large-8 columns first">
+			<div id="embed-code" class="panel">
+				&lt;iframe href="http://{{host}}{% url 'presentation' presentation.key %}" width="<span id="iframe-width-property">640</span>" height="<span id="iframe-height-property">480</span>"&gt;
+				&lt;/iframe&gt;
+			</div>
+		</div>
+		<div class="large-4 columns last">
+			<label>{% trans 'Width' %} (px)</label>
+			<input id="iframe-width" type="number" value="640" min="1" max="3000">
+			<label>{% trans 'Height' %} (px)</label>
+			<input id="iframe-height" type="number" value="480" min="1" max="3000">
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="{{STATIC_URL}}js/share-form.js"></script>
+<link rel="stylesheet" href="{{STATIC_URL}}css/share-form.css" />
+
+{%comment%}
+<div class="panel">
+	{% if collaborators %}
+	<div id="collaborators-list">
+		{% for collaborator in collaborators %}
+		<div class="row">
+			<div class="large-5 columns">
+				{{ collaborator.user.email }}
+			</div>
+			<div class="large-3 columns">
+				{% if collaborator.can_edit %}
+				{% trans 'Allow edit' %}
+				{% else %}
+				{% trans 'View only' %}
+				{% endif %}
+			</div>
+			<div class="large-4 columns">
+				<a class="btn-unshare" href="{% url 'unshare' collaborator.id %}">{% trans 'Delete' %}</a>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<hr>
+	{% endif %}
+
+	<form action="{% url 'share' presentation.id %}" method="post">
+		{% csrf_token %}
+		<input type="hidden" name="presentation_id" value="{{presentation.id}}"/>
+		{{share_formset.management_form}}
+		<div id="collaborators">
+			{% for form in share_formset %}
+			<div class="row" class="collaborator-row">
+				<div class="large-2 columns first">
+					{% trans 'Email' %}
+				</div>
+				<div class="large-6 columns">
+					{{form.email}}
+				</div>
+				<div class="large-4 columns">
+					{{form.permission}}
+				</div>
+			</div>
+			<hr>
+			{% endfor %}
+		</div>
+		<div class="row">
+			<div class="large-8 columns first"> </div>
+			<div class="large-4 columns last">
+				<a id="add-collaborator-btn" class="button small" href="#" data-tooltip title="{% trans 'Add another collaborator' %}">{% trans 'Add another' %}</a>
+			</div>
+		</div>
+
+		<!-- Empty dynamic form -->
+		<div id="empty-form" style="display:none">
+			<div class="row" class="collaborator-row">
+				<div class="large-2 columns first">
+					{% trans 'Email' %}
+				</div>
+				<div class="large-6 columns">
+					{{share_formset.empty_form.email}}
+				</div>
+				<div class="large-4 columns">
+					{{share_formset.empty_form.permission}}
+				</div>
+			</div>
+			<hr>
+		</div>
+
+		<button>
+			{% trans 'Share' %}
+		</button>
+	</form>
+
+	<script type="text/javascript" src="{{STATIC_URL}}js/share-form.js"></script>
+	<link rel="stylesheet" href="{{STATIC_URL}}css/share-form.css" />
+</div>
+{%endcomment%}

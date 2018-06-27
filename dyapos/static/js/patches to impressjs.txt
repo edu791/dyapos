@@ -1,0 +1,13 @@
+-I replaced line 402 into this:
+triggerEvent(root, "impress:init", { api: roots[ "impress-root-" + rootId ], steps: steps });
+That way it will be compatible with impress.js-progress (https://github.com/m42e/impress.js-progress)
+
+-Commented lines 172 to 182, this was replaced by a "true" value to be compatible with more browsers and devices
+
+-Lines from 548 to 555, added a new feature to change the background color according to the visible slide.
+
+
+-On impressConsole.js I replaced line 235 into this:
+consoleWindow = window.open(null, null, "width=940,height=780");
+
+That way it will be opened on another window instead of a tab (another tab might be confusing for the user)

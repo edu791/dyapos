@@ -1,0 +1,7 @@
+*.pyc
+venv
+.settings/
+.project
+.pydevproject
+.ropeproject
+*.swp

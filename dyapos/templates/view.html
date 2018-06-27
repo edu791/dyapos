@@ -1,0 +1,200 @@
+{% load i18n %}
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>{{presentation.name}}</title>
+		<meta name="viewport" content="width=1024" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<link href="{{STATIC_URL}}css/impress.css" rel="stylesheet" />
+		<link href="{{STATIC_URL}}css/impress-progress.css" rel="stylesheet" />
+		<link id="impress-console-css" href="{{STATIC_URL}}css/impressConsole.css" rel="stylesheet" />
+		<style>
+		{% autoescape off %}
+		{{theme_css}}
+		{% endautoescape %}
+		</style>
+	</head>
+
+	<body class="impress-not-supported">
+
+		<div class="fallback-message">
+			{% trans "
+			<p>
+				Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.
+			</p>
+			<p>
+				For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.
+			</p>
+			" %}
+		</div>
+
+		<div id="impress">
+
+			{% autoescape off %}
+			{% spaceless %}
+			{% for slide in slides %}
+			<div class="step" id="step-{{forloop.counter0}}" data-x="{{slide.pos_x}}" data-y="{{slide.pos_y}}" data-scale="{{slide.scale}}"
+			{% if slide.rotation_x %}
+			data-rotate-x="{{slide.rotation_x}}"
+			{% endif %}
+			{% if slide.rotation_y %}
+			data-rotate-y="{{slide.rotation_y}}"
+			{% endif %}
+			{% if slide.rotation_z %}
+			data-rotate-z="{{slide.rotation_z}}"
+			{% endif %}
+			{% if slide.background_color %}
+			data-background-color="{{slide.background_color}}"
+			{% endif %}
+			>
+				{% for component in slide.components %}
+				<div class="{{component.type}} {{component.text_type}}"
+				style="
+				position: absolute;
+				top:{{component.pos_y}}px;
+				left:{{component.pos_x}}px;
+				-webkit-transform: rotate({{ component.rotation }}deg);
+				-moz-transform: rotate({{ component.rotation }}deg);
+				-o-transform: rotate({{ component.rotation }}deg);
+				-ms-transform: rotate({{ component.rotation }}deg);
+
+				{% if component.type == "text" %}
+				{% if component.bold == True %}
+				font-weight:bold;
+				{% endif %}
+				{% if component.italic == True %}
+				font-style:italic;
+				{% endif %}
+				{% if component.underlined == True %}
+				text-decoration:underline;
+				{% endif %}
+				{% if component.color %}
+				color: {{component.color}};
+				{% endif %}
+				{% if component.font_size %}
+				font-size: {{component.font_size}}px;
+				{% endif %}
+				{% endif %}
+				{% if component.type == "image" %}
+				width: {{component.size}}px;
+				{% endif %}
+				{% if component.type == "video" %}
+				width: 700px;
+				height: 400px;
+				{% endif %}
+
+				"
+				>
+
+					{% if component.type == "text" %}
+					{% if component.link %} <a class="link" href="http://{{component.link}}" target="_blank"> {% endif %}
+					{{component.content}}
+					{% if component.link %} </a> {% endif %}
+					{% endif %}
+
+					{% if component.type == "image" %}
+					<img src="{{component.url}}" style="width:100%">
+					{% endif %}
+
+					{% if component.type == "video" %}
+					<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="http://www.youtube.com/embed/{{component.url_id}}" frameborder="0" allowfullscreen> </iframe>
+					{% endif %}
+
+				</div>
+				{% endfor %}
+
+				<div class="notes">
+					{{ slide.notes }}
+				</div>
+
+			</div>
+			{% endfor %}
+			{% endspaceless %}
+			{% endautoescape %}
+
+		</div>
+
+		{% if presentation.theme.custom_logo %}
+		<div id="logo" style="opacity:0.5;position:absolute;right:1%;top:1%;width:9%;">
+			<img src="{{presentation.theme.custom_logo}}" width="100%"/>
+		</div>
+		{% endif %}
+
+		{% if presentation.has_progressbar %}
+		<div class="progressbar">
+			<div> </div>
+		</div>
+		<div class="progress"> </div>
+		{% endif %}
+
+		<div id="help-box">
+			<table>
+				<tbody>
+					<tr>
+						<th>Space</th><td>Forward</td>
+					</tr>
+					<tr>
+						<th>Left, Down, Page Down</th><td>Next slide</td>
+					</tr>
+					<tr>
+						<th>Right, Up, Page Up</th><td>Previous slide</td>
+					</tr>
+					<tr>
+						<th>P</th><td>Open presenter console</td>
+					</tr>
+					<tr>
+						<th>H</th><td>Toggle this help</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<script src="{{STATIC_URL}}js/libs/impress-progress.js"></script>
+		<script src="{{STATIC_URL}}js/libs/impress.js"></script>
+		<script src="{{STATIC_URL}}js/libs/impressConsole.js"></script>
+		<script>
+			impress().init();
+			impressConsole().init( css = document.getElementById("impress-console-css").href);
+
+			// Set up the help-box
+			var helpdiv = window.document.getElementById('help-box');
+
+			if (window.top != window.self) {
+				// This is inside an iframe, so don't show the help.
+				helpdiv.className = "disabled";
+			} else {
+				// Install a funtion to toggle help on and off.
+				var help = function() {
+					if (helpdiv.className == 'hide')
+						helpdiv.className = 'show';
+					else
+						helpdiv.className = 'hide';
+				};
+				impressConsole().registerKeyEvent([72], help, window);
+
+				// The help is by default shown. Hide it after five seconds.
+				setTimeout(function() {
+					var helpdiv = window.document.getElementById('help-box');
+					if (helpdiv.className != 'show')
+						helpdiv.className = 'hide';
+				}, 5000);
+			}
+
+			if (impressConsole()) {
+				impressConsole().init( cssFile = document.getElementById("impress-console-css").href);
+
+				var impressattrs = document.getElementById('impress').attributes;
+				if (impressattrs.hasOwnProperty('auto-console') && impressattrs['auto-console'].value.toLowerCase() === 'true') {
+					consoleWindow = impressConsole().open();
+				}
+			}
+
+			var slides_timeout = {{presentation.slides_timeout}};
+			if(slides_timeout !== 0){
+				setInterval(function(){ impress().next(); }, slides_timeout * 1000);
+			}
+		</script>
+	</body>
+</html>

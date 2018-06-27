@@ -1,0 +1,121 @@
+{% load i18n %}
+{% load widget_tweaks %}
+
+<form id="form-edit-theme" action="{% url 'theme-edit' form.instance.id %}" method="post" enctype="multipart/form-data">
+	<div class="row">
+		<div class="large-6 columns">
+			<div id="easy-editor">
+				<div class="row">
+					<div class="large-4 columns">
+						<label for="" class="right"> {{ form.name.label }} </label>
+					</div>
+					<div class="large-8 columns">
+						{{ form.name }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-4 columns">
+						<label for="" class="right"> {{ form.background_color.label }} </label>
+					</div>
+					<div class="large-8 columns">
+						{{ form.background_color|add_class:'color {hash:true}' }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-4 columns">
+						<label for="" class="right"> {{ form.title_font.label }} </label>
+					</div>
+					<div class="large-5 columns">
+						<select id="id_title_font" name="title_font" style="font-size:28px;">
+						{% for font in fonts %}
+						<option value="{{font.id}}" style="font-family:{{font.name}};" {% if form.title_font.value == font.id %}selected{% endif %}>{{font.name}}</option>
+						{% endfor %}
+						</select>
+					</div>
+					<div class="large-3 columns">
+						{{ form.title_color|add_class:'color {hash:true}' }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-4 columns">
+						<label for="" class="right"> {{ form.subtitle_font.label }} </label>
+					</div>
+					<div class="large-5 columns">
+						<select id="id_subtitle_font" name="subtitle_font" style="font-size:28px;">
+						{% for font in fonts %}
+						<option value="{{font.id}}" style="font-family:{{font.name}};" {% if form.subtitle_font.value == font.id %}selected{% endif %}>{{font.name}}</option>
+						{% endfor %}
+						</select>
+					</div>
+					<div class="large-3 columns">
+						{{ form.subtitle_color|add_class:'color {hash:true}' }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-4 columns">
+						<label for="" class="right"> {{ form.body_font.label }} </label>
+					</div>
+					<div class="large-5 columns">
+						<select id="id_body_font" name="body_font" style="font-size:28px;">
+						{% for font in fonts %}
+						<option value="{{font.id}}" style="font-family:{{font.name}};" {% if form.body_font.value == font.id %}selected{% endif %}>{{font.name}}</option>
+						{% endfor %}
+						</select>
+					</div>
+					<div class="large-3 columns">
+						{{ form.body_color|add_class:'color {hash:true}' }}
+					</div>
+				</div>
+				<hr />
+				<div class="row">
+					<div class="large-9 columns large-centered">
+						<a id="link-css-editor" href="#"> {% trans 'Edit CSS Code' %} <i class="fi-pencil"> </i> </a>
+						<small>{% trans 'For advanced users' %}</small>
+					</div>
+					<div class="large-8 columns">
+
+					</div>
+				</div>
+			</div>
+			<div id="css-editor">
+				<a id="btn-back-easy-editor"> <i class="fi-arrow-left"> </i> {% trans 'Back to easy editor' %} </a>
+				{{ form.extra_css_code|attr:'rows:22' }}
+			</div>
+			<hr />
+			<input class="button" type="submit" value="{% trans 'Save theme' %}" />
+		</div>
+		<div class="large-6 columns">
+			<div class="row">
+				<h3>{% trans 'Theme preview' %}</h3>
+			</div>
+			<div class="row">
+				<div id="theme-preview" style="position:relative; background-color: {{ form.instance.background_color }}; background-size: 100% 100%;">
+					<div id="preview-title" style="color: {{ form.instance.title_color }};font-family: {{ form.instance.title_font }};position:absolute;left:32%;top:4%;font-size: 5.5em;">
+						Title
+					</div>
+					<div id="preview-subtitle" style="color: {{ form.instance.subtitle_color }};font-family: {{ form.instance.subtitle_font }};position:absolute;left:36%;top:28%;font-size: 2.5em;">
+						Subtitle
+					</div>
+					<div id="preview-body" style="color: {{ form.instance.body_color }};font-family: {{ form.instance.body_font }};position:absolute;top:42%;left:8%;width:90%;font-size: 1.5em;">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam magni quia provident odit perspiciatis sapiente esse explicabo rerum reprehenderit voluptas a molestias consectetur at deleniti aliquam quos perferendis nisi molestiae.
+					</div>
+					<div id="preview-custom-logo" style="position:absolute;top:1%;right:1%;width:12%;">
+						{% if form.instance.custom_logo %}
+						<img src="{{ form.instance.custom_logo }}" style="width:100%;" />
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<hr />
+			<div class="row">
+				<div class="large-4 columns">
+					<label for="" class="right"> {{ form.custom_logo.label }} </label>
+				</div>
+				<div class="large-8 columns">
+					{{ form.custom_logo }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<a class="close-reveal-modal">x</a>
+</form>

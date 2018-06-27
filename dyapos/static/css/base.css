@@ -1,0 +1,89 @@
+@font-face {
+  font-family: futura-condensed;
+  font-style: normal;
+  src: url("/static/fonts/futura_condensed_medium.ttf");
+}
+@font-face {
+  font-family: bebas;
+  font-style: normal;
+  src: url("/static/fonts/BebasNeue.otf");
+}
+@font-face {
+  font-family: neris;
+  font-style: normal;
+  src: url("/static/fonts/Neris_LightItalic.otf");
+}
+/* custom colors */
+.errorlist {
+  list-style: none;
+  color: #f00;
+  margin-bottom: 0px;
+}
+header {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+header #btn-login {
+  height: 41px;
+  font-size: 1.5em;
+  font-family: 'futura-condensed';
+  text-transform: uppercase;
+  background-color: #1f8a70;
+  -webkit-box-shadow: 3px 2px #383d3c;
+  box-shadow: 3px 2px #383d3c;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  padding-right: 5px;
+  color: #fff;
+  padding: 5px;
+  float: right;
+}
+header #navbar {
+  float: right;
+}
+header #navbar #user-menu {
+  padding-bottom: 12px;
+  padding-top: 12px;
+  margin-left: 12px;
+}
+/* Custom foundation overrides */
+.button,
+button {
+  background-color: #1f8a70;
+  border: 0px;
+/*box-shadow 3px 2px $third_color*/
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  padding: 1em;
+}
+.button:hover,
+button:hover,
+.button:focus,
+button:focus {
+  background-color: #2cc6a2;
+}
+.button.secondary,
+button.secondary {
+  color: #1f8a70;
+}
+a {
+  color: #1f8a70;
+}
+a:hover {
+  color: #2cc6a2;
+}
+.side-nav li a {
+  display: block;
+  color: #1f8a70;
+}
+.label {
+  background-color: #1f8a70;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+ul.pagination li.current a {
+  background-color: #1f8a70;
+}
+ul.pagination li.current a:hover {
+  background-color: #2cc6a2;
+}

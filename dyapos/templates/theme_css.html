@@ -1,0 +1,35 @@
+@font-face {
+	font-family: "{{theme.title_font.name}}";
+	font-style: normal;
+	src: url("{{theme.title_font.filename.url}}");
+}
+
+@font-face {
+	font-family: "{{theme.subtitle_font.name}}";
+	font-style: normal;
+	src: url("{{theme.subtitle_font.filename.url}}");
+}
+
+@font-face {
+	font-family: "{{theme.body_font.name}}";
+	font-style: normal;
+	src: url("{{theme.body_font.filename.url}}");
+}
+
+body {
+	background-color: {{ theme.background_color }};
+}
+.title {
+	color: {{ theme.title_color }};
+	font-family: "{{ theme.title_font }}";
+}
+.subtitle {
+	color: {{ theme.subtitle_color }};
+	font-family: "{{ theme.subtitle_font }}";
+}
+.body {
+	color: {{ theme.body_color }};
+	font-family: "{{ theme.body_font }}";
+}
+
+{{ theme.extra_css_code }}

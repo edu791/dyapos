@@ -1,0 +1,32 @@
+{% extends 'base_home.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block includes %}
+<title>{% trans 'Login' %}</title>
+<link rel="stylesheet" href="{{STATIC_URL}}css/login.css" />
+{% endblock %}
+
+{% block home_content %}
+
+<div class="row">
+	<div class="large-6 columns">
+		<h2 class="subheader">{% trans 'Login'%}</h2>
+		<form id="login-form" action="login/?next={{next}}" method="post">
+			{{form.non_field_errors}}
+			{% csrf_token %}
+			<label for="username">{% trans 'Username or email:' %}</label>
+			{{form.username.errors}} {{form.username}}
+			{{form.password.errors}} {{form.password.label_tag}} {{form.password}}
+			<p>
+				<a href="{% url 'password-recover' %}">{% trans 'Forgot your password?'%}</a>
+			</p>
+			<button type="submit" id="login-button">
+				{% trans 'Login'%}
+			</button>
+		</form>
+		{% trans "Don't you have an account?" %} <a href="{% url 'signup' %}"><b>{% trans 'Signup' %}</b></a>
+	</div>
+</div>
+
+{% endblock %}

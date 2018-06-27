@@ -1,0 +1,132 @@
+{% extends "base_home.html" %}
+{% load i18n %}
+
+{% block includes %}
+<title>Dyapos - {% trans 'home' %}</title>
+<link href="{{STATIC_URL}}css/home.css" rel="stylesheet" />
+{% endblock %}
+
+{% block home_content %}
+
+<div>
+	<div class="row">
+		<div class="large-3 columns">
+			<div class="panel">
+				<a href="#" class="button" data-reveal-id="create-presentation-window" data-tooltip title="{% trans 'Create presentation' %}"> <i class="fi-projection-screen"> </i> {% trans 'Create new' %} </a>
+				<ul class="side-nav">
+					<li id="all" {% if filter == "all" or filter == None %} class="active" {% endif %}>
+						<a href="{% url 'home' %}" data-tooltip title="{% trans 'View all' %}">{%trans 'All'%}</a>
+					</li>
+					<li class="divider"> </li>
+					<li id="own" {% if filter == "own" %} class="active" {% endif %}>
+						<a href="{% url 'home-own' %}" data-tooltip title="{% trans 'View my own presentations' %}">{% trans 'Own' %}</a>
+					</li>
+					<li class="divider"> </li>
+					<li id="shared" {% if filter == "shared" %} class="active" {% endif %}>
+						<a href="{% url 'home-shared' %}" data-tooltip title="{% trans 'View shared presentations' %}">{% trans 'Shared with me' %}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="large-9 columns">
+			<div class="row">
+				<form action="{% url 'home' %}?filter={{filter|default:'all'}}" method="post">
+					{% csrf_token %}
+					<label for="search">{% trans 'Search' %}</label>
+					<input type="text" id="txt-search" name="search" data-tooltip title="{% trans 'Search by name' %}"/>
+				</form>
+			</div>
+			<div class="row">
+				<div class="panel">
+					<img src="{{STATIC_URL}}img/loading.gif" id="icon-loading-presentations" width="20%" style="display:none;">
+					<div id="presentation-list">
+						{% for presentation in presentations %}
+						<div class="row">
+							<div class="presentation">
+								<div class="large-9 columns">
+									<a href="{% url 'presentation' presentation.key %}" class="presentation-title" title="{{presentation.description}}"> <h4 class="title">{{presentation.name}}
+									{% if presentation.is_private %}
+										<small title="{% trans 'Private presentation' %}"><i class="fi-lock"></i></small>
+									{% endif %}
+									</h4></a>
+								</div>
+								<div class="large-1 columns">
+									<a href="{% url 'edit' presentation.key %}" class="presentation-option" data-tooltip title="{% trans 'Edit' %}"> <i class="fi-pencil"></i> </a>
+								</div>
+								<div class="large-1 columns">
+									<a href="{% url 'view' presentation.key %}" class="presentation-option" data-tooltip title="{% trans 'View presentation' %}"> <i class="fi-eye"></i> </a>
+								</div>
+								<div class="large-1 columns">
+									<a href="{% url 'delete' presentation.id %}" class="presentation-option btn-delete-presentation" data-tooltip title="{% trans 'Delete' %}"> <i class="fi-x" onclick="if(!confirm('{% trans "Are you sure you want to delete the presentation?" %}')) return false;"></i> </a>
+								</div>
+							</div>
+							<hr />
+						</div>
+						{% endfor %}
+						<input type="hidden" id="deletion-text" onclick="if(!confirm('{% trans "Are you sure you want to delete the presentation?" %}')) return false;" />
+
+						{% if presentations.has_other_pages %}
+						<ul class="pagination">
+						    {% if presentations.has_previous %}
+						        <li class="arrow"><a href="{% url 'home' %}?filter={{filter}}&page={{ presentations.previous_page_number }}">&laquo;</a></li>
+						        <li><a href="{% url 'home' %}?filter={{filter}}&page={{ presentations.previous_page_number }}">{{ presentations.previous_page_number }}</a></li>
+						    {% endif %}
+
+						    <li class="current"><a href="#">{{ presentations.number }}</a></li>
+
+						    {% if presentations.has_next %}
+						    	<li><a href="{% url 'home' %}?filter={{filter}}&page={{ presentations.next_page_number }}">{{ presentations.next_page_number }}</a></li>
+						        <li class="arrow"><a href="{% url 'home' %}?filter={{filter}}&page={{ presentations.next_page_number }}">&raquo;</a></li>
+						    {% endif %}
+						</ul>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="create-presentation-window" class="reveal-modal small" data-reveal>
+	<form id="create-presentation-form" action="{% url 'create' %}" method="post">
+		{% csrf_token %}
+
+		<label for="name">{% trans 'Name' %}</label>
+		{{form.name}}
+		<label for="name">{% trans 'Description' %} ({% trans 'Optional' %})</label>
+		{{form.description}}
+
+		<div data-tooltip title="{% trans 'It makes the presentation to be visible only for you and shared users' %}">
+			{{form.is_private}}
+			{{form.is_private.label}}
+		</div>
+
+		<hr>
+		<button>
+			{% trans 'Create presentation' %}
+		</button>
+	</form>
+	<a class="close-reveal-modal">x</a>
+</div>
+
+{% if profile_form %}
+<div id="profile-form" class="reveal-modal small" data-reveal>
+	<h1>{% trans 'Welcome to Dyapos' %}</h1>
+	<h4>{% trans 'Enter your public data which will be visible on your profile page if you want' %}</h4>
+	<form action="{% url 'update-profile' %}" method="post">
+		{% csrf_token %}
+		{{profile_form}}
+		<button>
+			{% trans 'Save changes' %}
+		</button>
+	</form>
+	<a class="close-reveal-modal">x</a>
+</div>
+<script>
+	window.onload = function(){
+		$("#profile-form").foundation("reveal", "open");
+	}
+</script>
+{% endif %}
+
+{% endblock %}

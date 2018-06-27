@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<header>
+	<div class="row">
+		<div id="logo" class="large-4 small-6 columns first">
+			<a href="{% url 'index' %}"> <img src="{{STATIC_URL}}img/logo.png" width="80%"> </a>
+			<div style="color:gray;display:inline-block;">Beta</div>
+		</div>
+		<div class="large-2 columns">
+
+		</div>
+		<div class="large-6 columns last">
+			{% if user.is_authenticated %}
+				<div id="navbar">
+					<a href="{% url 'home' %}" data-tooltip title="{% trans 'Home page' %}"> <i class="fi-home"> </i> {% trans 'Home' %} </a>
+
+					<a href="#" id="user-menu" data-dropdown="user-dropdown" class="button dropdown">{{user.username}}</a>
+					<ul id="user-dropdown" data-dropdown-content class="f-dropdown">
+						<li>
+							<a href="{% url 'user' user.username %}" data-tooltip title="{% trans 'View my profile' %}"> {% trans 'My user profile' %} </a>
+						</li>
+						<li>
+							<a href="{% url 'settings' %}" data-tooltip title="{% trans 'Settings' %}"> <i class="fi-widget"> </i> {% trans 'Settings' %} </a>
+						</li>
+						<li>
+							<a href="{% url 'logout' %}" data-tooltip title="{% trans 'Close session' %}">{% trans 'Logout' %}</a>
+						</li>
+					</ul>
+				</div>
+			{% else %}
+				{% if not user.is_authenticated %}
+				<a href="{% url 'login' %}" id="btn-login" class="">{% trans 'Login' %} <i class="icon-play"></i></a>
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
+</header>
+
+{% if messages %}
+	<div class="row">
+	    {% for message in messages %}
+		<div data-alert class="alert-box {{message.tags}} round">
+		  {{message}}
+		  <a href="#" class="close">&times;</a>
+		</div>
+	    {% endfor %}
+	</div>
+{% endif %}
+
+{% block home_content %}
+
+{% endblock home_content %}
+
+{% endblock content %}

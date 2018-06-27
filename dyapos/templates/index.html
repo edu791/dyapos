@@ -1,0 +1,125 @@
+{% extends 'base_home.html' %}
+{% load i18n %}
+
+{% block includes %}
+<title>Dyapos</title>
+<link href="{{STATIC_URL}}css/index.css" rel="stylesheet" />
+<script src="{{STATIC_URL}}js/index.js"></script>
+<script>
+	var url_featured = "{% url 'featured' %}";
+</script>
+{% endblock %}
+
+{% block home_content %}
+
+<section class="large-12 columns" id="welcome-index">
+	<div class="large-12 large-centered columns" id="message-box">
+		<h1>{% trans 'Welcome' %}</h1>
+		<h2>{% trans 'to a new generation of digital presentations' %}</h2>
+	</div>
+	{% if not user.is_authenticated %}
+	<div class="large-12 large-centered columns" id="btn-box">
+		<a href="{% url 'signup' %}" id="btn-begin">
+			{% trans 'Join to the experience' %}
+			<span class="play-box"><i class="icon-play"></i></span>
+		</a>
+	</div>
+	{% endif %}
+</section>
+<section id="triangle" class="large-12 columns">
+	<span class="detail"></span>
+</section>
+<section id="more" class="large-12 columns">
+	<p>{% trans 'Learn more about the features of Dyapos' %}</p>
+	<p><strong>{% trans "You'll love it!" %}</strong></p>
+	<a href="#first-feature" id="more-link"><i class="icon-arrow-down"></i></a>
+</section>
+<section id="features">
+	<section id="first-feature" class="feature even large-12 columns sections">
+		<div class="large-6 columns">
+			<img src="{{STATIC_URL}}img/create_and_share.png" alt="" />
+		</div>
+		<div class="large-6 columns descriptions">
+			<h1>{% trans 'Create and share online presentations' %}</h1>
+		</div>
+	</section>
+	<section class="feature odd large-12 columns sections">
+		<div class="large-6 columns descriptions">
+			<h1>{% trans 'Edit in real-time and collaboratively with other users' %}</h1>
+		</div>
+		<div class="large-6 columns">
+			<img src="{{STATIC_URL}}img/collaborative.png" alt="" />
+		</div>
+	</section>
+	<section class="feature even large-12 columns sections">
+		<div class="large-6 columns">
+			<img src="{{STATIC_URL}}img/any_device.png" alt="" />
+		</div>
+		<div class="large-6 columns descriptions">
+			<h1>{% trans 'View your presentations on any devices from a web browser' %}</h1>
+		</div>
+	</section>
+	<section class="feature odd large-12 columns sections">
+		<div class="large-6 columns descriptions">
+			<h1>{% trans "Don't need Flash Player anymore" %}</h1>
+			<p>{% trans 'Enjoy HTML5 + CSS3 features on your presentations!' %}</p>
+		</div>
+		<div class="large-6 columns">
+			<img src="{{STATIC_URL}}img/no_flash.png" alt="" />
+		</div>
+	</section>
+	<section class="feature even large-12 columns sections">
+		<div class="large-6 columns">
+			<img src="{{STATIC_URL}}img/download.png" alt="" />
+		</div>
+		<div class="large-6 columns descriptions">
+			<h1>{% trans 'Download your presentations and present offline' %}</h1>
+		</div>
+	</section>
+	<section class="feature odd large-12 columns sections">
+		<div class="large-6 columns descriptions">
+			<h1>{% trans "Dyapos is Free and Open Source Software" %}</h1>
+			<p>{% trans 'You can view the source code, modify it and contribute to the developer community freely' %}</p>
+		</div>
+	</section>
+	<section class="feature even large-12 columns">
+		<div class="large-2 columns">
+			<select onchange="window.location='/lang/'+this.value;">
+				<option value="en" {%if LANGUAGE_CODE == "en"%}selected{%endif%}>English</option>
+				<option value="es" {%if LANGUAGE_CODE == "es"%}selected{%endif%}>Spanish</option>
+				<option value="pt" {%if LANGUAGE_CODE == "pt"%}selected{%endif%}>Portuguese</option>
+				<option value="fr" {%if LANGUAGE_CODE == "fr"%}selected{%endif%}>French</option>
+				<option value="it" {%if LANGUAGE_CODE == "it"%}selected{%endif%}>Italian</option>
+				<option value="de" {%if LANGUAGE_CODE == "de"%}selected{%endif%}>German</option>
+				<option value="nl" {%if LANGUAGE_CODE == "nl"%}selected{%endif%}>Dutch</option>
+			</select>	
+		</div>
+		<div class="large-2 large-offset-8 columns descriptions">
+			<ul style="list-style:none;">
+				<li>
+					<a href="mailto:dyapos@opmbx.org">{% trans 'Contact us' %}</a>
+				</li>
+				<li>
+					<a href="https://gitlab.com/edwardoyarzun/dyapos">{% trans 'Source code' %}</a>
+				</li>
+			</ul>
+		</div>
+	</section>
+</section>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+    _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+        (function() {
+		    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics-dyapos.rhcloud.com/";
+		        _paq.push(['setTrackerUrl', u+'piwik.php']);
+			    _paq.push(['setSiteId', 1]);
+			        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+				    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+     })();
+</script>
+<noscript><p><img src="http://analytics-dyapos.rhcloud.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+
+{% endblock %}

@@ -1,0 +1,104 @@
+@import 'nib/vendor'
+
+@font-face
+	font-family futura-condensed
+	font-style normal
+	src url(/static/fonts/futura_condensed_medium.ttf)
+
+@font-face
+	font-family bebas
+	font-style normal
+	src url(/static/fonts/BebasNeue.otf)
+
+@font-face
+	font-family neris
+	font-style normal
+	src url(/static/fonts/Neris_LightItalic.otf)
+
+vendor-prefixes = moz webkit o ms official
+
+/* custom colors */
+$first_color = #1F8A70
+$second_color = #065941
+$third_color = #383D3C
+$btn_color = $first_color
+$btn_hover_color = #2cc6a2ff
+$link_color = $first_color
+$link_hover_color = $btn_hover_color
+$delete_color = #9c3131
+$shadow_color = #24332F
+$paragraph_color = #4C4C4C
+
+.errorlist
+	list-style none
+	color red
+	margin-bottom 0px
+
+header
+	margin-top 8px
+	margin-bottom 8px
+
+	#btn-login
+		height 41px
+		font-size 1.5em
+		font-family 'futura-condensed'
+		text-transform uppercase
+		background-color $first_color
+		box-shadow 3px 2px $third_color
+		border-radius 4px
+		padding-right 5px
+		color white
+		padding 5px
+		float right
+
+	#navbar
+		float right
+
+		#user-menu
+			padding-bottom 12px
+			padding-top 12px
+			margin-left 12px
+
+/* Custom foundation overrides */
+
+.button
+button
+	background-color $btn_color
+	border 0px
+	/*box-shadow 3px 2px $third_color*/
+	border-radius 4px
+	padding 1em
+
+	&:hover
+	&:focus
+		background-color $btn_hover_color
+
+	&.secondary
+		color $link_color
+
+a
+	color $link_color
+
+	&:hover
+		color $link_hover_color
+
+.side-nav
+	li
+		a
+			display block
+			color $link_color
+
+			&:hover
+				buttonHover()
+
+.label
+	background-color $first_color
+	border-radius 4px
+
+ul.pagination
+	li.current
+		a
+			background-color $first_color
+
+			&:hover
+				background-color $btn_hover_color

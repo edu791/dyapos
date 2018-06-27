@@ -1,0 +1,25 @@
+{% extends "base_home.html" %}
+{% load i18n %}
+
+{% block includes %}
+<title>{% trans 'Signup' %}</title>
+<link rel="stylesheet" href="{{STATIC_URL}}css/signup.css" type="text/css"/>
+{% endblock includes %}
+
+{% block home_content %}
+
+<div class="row">
+	<h1>{% trans 'Register' %}</h1>
+</div>
+<div class="row">
+	<form method="post" action="{% url 'signup' %}">
+		{% csrf_token %}
+		{{ form }}
+		<button>
+			{% trans 'Register' %}
+		</button>
+
+	</form>
+</div>
+
+{% endblock %}

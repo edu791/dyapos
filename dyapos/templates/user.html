@@ -1,0 +1,61 @@
+{% extends "base_home.html" %}
+{% load i18n %}
+
+{% block includes %}
+<title>{{found_user.username}}</title>
+<link href="{{STATIC_URL}}css/user.css" rel="stylesheet" />
+<script src="{{STATIC_URL}}js/user.js"></script>
+{% endblock %}
+
+{% block home_content %}
+
+<div class="row">
+{% if found_user.first_name or found_user.last_name%}
+	<h1>{{found_user.first_name}} {{found_user.last_name}}</h1>
+	<h4>@{{found_user.username}}</h4>
+{% else %}
+	<h1>@{{found_user.username}}</h1>
+{% endif %}
+</div>
+<div class="row">
+	<div class="large-5 columns">
+		<div class="row">
+			<img src="//gravatar.com/avatar/{{email_hash}}?s=200&d=mm" />
+		</div>
+		<hr />
+		<div class="row">
+			{{found_user.info}}
+		</div>
+	</div>
+	<div class="large-7 columns">
+		<div id="presentation-list">
+			{% for presentation in presentations %}
+			<div class="row">
+				<div class="presentation">
+					<a href="{% url 'presentation' presentation.key %}" class="presentation-title" title="{{presentation.description}}"> <h4 class="title">{{presentation.name}}
+					</h4></a>
+				</div>
+				<hr />
+			</div>
+			{% endfor %}
+
+			{% if presentations.has_other_pages %}
+			<ul class="pagination">
+			    {% if presentations.has_previous %}
+			        <li class="arrow"><a href="{% url 'user' found_user %}?page={{ presentations.previous_page_number }}">&laquo;</a></li>
+			        <li><a href="{% url 'user' found_user %}?page={{ presentations.previous_page_number }}">{{ presentations.previous_page_number }}</a></li>
+			    {% endif %}
+
+			    <li class="current"><a href="#">{{ presentations.number }}</a></li>
+
+			    {% if presentations.has_next %}
+			    	<li><a href="{% url 'user' found_user %}?page={{ presentations.next_page_number }}">{{ presentations.next_page_number }}</a></li>
+			        <li class="arrow"><a href="{% url 'user' found_user %}?page={{ presentations.next_page_number }}">&raquo;</a></li>
+			    {% endif %}
+			</ul>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}

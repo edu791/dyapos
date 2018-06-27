@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Dyapos_presentation</title>
+		<meta name="viewport" content="width=1024" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<link href="/static/css/impress.css" rel="stylesheet" />
+		<link href="/static/css/impress-progress.css" rel="stylesheet" />
+		<link id="impress-console-css" href="/static/css/impressConsole.css" rel="stylesheet" />
+		<style>
+			body {
+				background-color: #3D6F3D;
+			}
+			.title {
+				font-family: 'PT Serif', georgia, serif;
+				color: #FFFFFF;
+			}
+			.subtitle {
+				font-family: 'PT Serif', georgia, serif;
+				color: #FFFFFF;
+			}
+			.body {
+				font-family: 'PT Serif', georgia, serif;
+				color: #FFFFFF;
+			}
+			.text {
+				line-height: 1.1em;
+				white-space: nowrap;
+			}
+			.title {
+				font-size: 128px;
+			}
+			.subtitle {
+				font-size: 92px;
+			}
+			.body {
+				font-size: 80px;
+			}
+			.link {
+				background: none repeat scroll 0 0 rgba(255, 255, 255, 0.5);
+				border-radius: 0.2em;
+				color: inherit;
+				padding: 0 0.1em;
+				text-decoration: none;
+				transition: all 0.5s ease 0s;
+			}
+			.link:hover, .link:focus {
+				background: none repeat scroll 0 0 #FFFFFF;
+			}
+			.step {
+				height: 700px;
+				width: 900px;
+				position: relative;
+			}
+		</style>
+	</head>
+
+	<body class="impress-not-supported">
+
+		<div class="fallback-message">
+			<p>
+				Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.
+			</p>
+			<p>
+				For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.
+			</p>
+		</div>
+
+		<div id="impress">
+
+			<div class="step" id="step-0" data-x="0" data-y="0" data-scale="1"
+
+			data-background-color="#5C8760"
+
+			>
+				<div class="text title"
+				style="
+				position: absolute;
+				top:144.578731537px;
+				left:92.6179504395px;
+				-webkit-transform: rotate(0deg);
+				-moz-transform: rotate(0deg);
+				-o-transform: rotate(0deg);
+				-ms-transform: rotate(0deg);
+
+				color: #FFFAEB;
+
+				"
+				>
+
+					Hello world
+
+				</div>
+				<div class="notes">
+					None
+				</div>
+			</div>
+			<div class="step" id="step-1" data-x="19" data-y="140" data-scale="0.265"
+
+			data-background-color="#86A386"
+
+			>
+				<div class="text subtitle"
+				style="
+				position: absolute;
+				top:154.650009155px;
+				left:129.050018311px;
+				-webkit-transform: rotate(0deg);
+				-moz-transform: rotate(0deg);
+				-o-transform: rotate(0deg);
+				-ms-transform: rotate(0deg);
+
+				"
+				>
+
+					This is a demo
+					<br>
+					presentation
+
+				</div>
+				<div class="notes">
+					None
+				</div>
+			</div>
+			<div class="step" id="step-2" data-x="811" data-y="-7" data-scale="0.585"
+
+			data-rotate-z="91"
+
+			data-background-color="#171717"
+
+			>
+				<div class="text subtitle"
+				style="
+				position: absolute;
+				top:238.767543793px;
+				left:133.832794189px;
+				-webkit-transform: rotate(0deg);
+				-moz-transform: rotate(0deg);
+				-o-transform: rotate(0deg);
+				-ms-transform: rotate(0deg);
+
+				color: #fbf8be;
+
+				"
+				>
+
+					Goodbye world
+
+				</div>
+				<div class="notes">
+					None
+				</div>
+			</div>
+
+		</div>
+
+		<div class="progressbar">
+			<div> </div>
+		</div>
+		<div class="progress"> </div>
+
+		<div id="help-box">
+			<table>
+				<tbody>
+					<tr>
+						<th>Space</th><td>Forward</td>
+					</tr>
+					<tr>
+						<th>Left, Down, Page Down</th><td>Next slide</td>
+					</tr>
+					<tr>
+						<th>Right, Up, Page Up</th><td>Previous slide</td>
+					</tr>
+					<tr>
+						<th>P</th><td>Open presenter console</td>
+					</tr>
+					<tr>
+						<th>H</th><td>Toggle this help</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<script src="/static/js/libs/impress-progress.js"></script>
+		<script src="/static/js/libs/impress.js"></script>
+		<script src="/static/js/libs/impressConsole.js"></script>
+		<script>
+			impress().init();
+			impressConsole().init( css = document.getElementById("impress-console-css").href);
+
+			// Set up the help-box
+			var helpdiv = window.document.getElementById('help-box');
+
+			if (window.top != window.self) {
+				// This is inside an iframe, so don't show the help.
+				helpdiv.className = "disabled";
+			} else {
+				// Install a funtion to toggle help on and off.
+				var help = function() {
+					if (helpdiv.className == 'hide')
+						helpdiv.className = 'show';
+					else
+						helpdiv.className = 'hide';
+				};
+				impressConsole().registerKeyEvent([72], help, window);
+
+				// The help is by default shown. Hide it after five seconds.
+				setTimeout(function() {
+					var helpdiv = window.document.getElementById('help-box');
+					if (helpdiv.className != 'show')
+						helpdiv.className = 'hide';
+				}, 5000);
+			}
+
+			if (impressConsole()) {
+				impressConsole().init( cssFile = document.getElementById("impress-console-css").href);
+
+				var impressattrs = document.getElementById('impress').attributes;
+				if (impressattrs.hasOwnProperty('auto-console') && impressattrs['auto-console'].value.toLowerCase() === 'true') {
+					consoleWindow = impressConsole().open();
+				}
+			}
+		</script>
+	</body>
+</html>

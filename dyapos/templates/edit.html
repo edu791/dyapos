@@ -1,0 +1,449 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block includes %}
+
+{% load widget_tweaks %}
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>{{presentation.name}}</title>
+<link href="{{STATIC_URL}}css/edit.css" rel="stylesheet" />
+<link href="{{STATIC_URL}}css/impress.css" rel="stylesheet" />
+<style>
+	{% for font in fonts %}
+	@font-face {
+		font-family: "{{font.name}}";
+		font-style: normal;
+		src: url("{{font.filename.url}}");
+	}
+	{% endfor %}
+</style>
+<style id="theme-style">
+	{% autoescape off %}
+	{{ theme_css }}
+	{% endautoescape %}
+</style>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+<script>
+	if (!window._)
+		document.write('<script src="{{STATIC_URL}}js/libs/underscore-min.js"><\/script>');
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+<script>
+	if (!window.Backbone)
+		document.write('<script src="{{STATIC_URL}}js/libs/backbone-min.js"><\/script>');
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/backbone-relational/0.8.6/backbone-relational.min.js"></script>
+<script>
+	if (!window.Backbone.Relational)
+		document.write('<script src="{{STATIC_URL}}js/libs/backbone-relational.min.js"><\/script>');
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script>
+	if (!window.jQuery.ui)
+		document.write('<script src="{{STATIC_URL}}js/libs/jquery-ui-1.10.3.custom.js"><\/script>');
+</script>
+<script src="{{STATIC_URL}}js/libs/jscolor/jscolor.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.0.3/codemirror.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script>
+	if (!window.html2canvas)
+		document.write('<script src="{{STATIC_URL}}js/libs/html2canvas.js"><\/script>');
+</script>
+<script src="{{STATIC_URL}}js/libs/canvas-to-blob.min.js"></script>
+<script src="{{NODEJS_URL}}/socket.io/socket.io.js"></script>
+<script src="{{STATIC_URL}}js/libs/backbone.iosync.js"></script>
+<script src="{{STATIC_URL}}js/libs/backbone.iobind.js"></script>
+
+<script>
+	// Define a namespace app variable where to save global variables
+	var app = {}, socket;
+
+	Object.defineProperties(app, {
+		p_id : { value : {{ presentation.id|default:'null' }} },
+		user_first_name : { value:"{{ user_data.first_name|default:'null' }}" },
+		user_last_name : { value:"{{ user_data.last_name|default:'null' }}" },
+		user_username : { value:"{{ user_data.username|default:'null' }}" },
+		nodejs_url : { value:"{{ NODEJS_URL|default:'null' }}" },
+		title_default_text : { value:"{% trans 'New title' %}" },
+		subtitle_default_text : { value:"{% trans 'New subtitle' %}" },
+		body_default_text : { value:"{% trans 'New body' %}" },
+		url_theme_list: { value:"{% url 'themes' %}" },
+		url_theme_set: { value:"{% url 'theme-set' %}" },
+		url_theme_edit: { value:"/theme/edit/" },
+		url_theme_get_css: { value:"/theme/get_css/" },
+	});
+
+	app.current_theme = {{ presentation.theme.id }};
+	app.theme_background_color = "{{ presentation.theme.background_color }}";
+</script>
+
+<script data-main="{{STATIC_URL}}js/edit.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js"></script>
+<script>
+	if (!window.requirejs)
+		document.write('<script data-main="{{STATIC_URL}}js/edit.js" src="{{STATIC_URL}}js/libs/require.min.js"><\/script>');
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<div id="loading-screen">
+	<img id="loading-icon" src="{{STATIC_URL}}img/loading.gif" />
+</div>
+
+<div id="slides-bar">
+	<ul id="slides-list">
+
+	</ul>
+</div>
+
+<a href="#" id="btn-add-slide" class="button secondary" data-tooltip title="{% trans 'Add slide' %}"><i class="fi-plus"> </i></a>
+
+<a href="#" id="btn-navigation-mode" class="button secondary" data-tooltip title="{% trans 'Navigation mode' %}"><i class="fi-thumbnails"> </i></a>
+
+<a href="#" id="btn-slide-background-color" class="button secondary" data-tooltip title="{% trans 'Change slide background color' %}"><i class="fi-paint-bucket"> </i>
+<input id="slide-background-color" class="color {hash:true}" style="display:none;width:60px;border:none;"/>
+</a>
+
+<a href="#" id="btn-slide-notes" class="button secondary" data-tooltip title="{% trans 'Helping notes' %}"><i class="fi-page-edit"> </i></a>
+
+<a href="#" id="btn-zoom-in" class="button secondary" data-tooltip title="{% trans 'Zoom in' %}"><i class="fi-zoom-in"></i></a>
+<a href="#" id="btn-zoom-out" class="button secondary" data-tooltip title="{% trans 'Zoom out' %}"><i class="fi-zoom-out"></i></a>
+
+<div id="right-panel">
+	<div>
+		<a id="btn-preview-presentation" class="button secondary" href="{% url 'view' presentation.key %}" target="_blank" data-tooltip title="{% trans 'Preview presentation' %}">
+			<img src="{{STATIC_URL}}img/logo_play.png" />
+		</a>
+	</div>
+	<ul id="main-menu" class="side-nav">
+		<li>
+			<a id="style-btn" href="#" data-reveal-id="edit-theme-window"><i class="fi-paint-bucket"> </i> {% trans 'Style' %}</a>
+		</li>
+		<li>
+			<a id="themes-btn" href="#" data-reveal-id="themes-window"><i class="fi-eye"> </i> {% trans 'Themes' %} </a>
+		</li>
+		{% if share_form != None %}
+		<li>
+			<a id="share-btn" href="#" data-reveal-id="share-window"><i class="fi-share"> </i> {% trans 'Share' %} </a>
+		</li>
+		{% endif %}
+		<li>
+			<a id="btn-download" href="{% url 'download' presentation.id %}" target="_blank" ><i class="fi-download"> </i> {% trans 'Download' %} </a>
+		</li>
+		<li>
+			<a id="btn-options" href="#" data-reveal-id="options-window"><i class="fi-widget"> </i> {% trans 'Options' %} </a>
+		</li>
+		<li>
+			<a href="{% url 'home' %}"><i class="fi-x-circle"> </i> {% trans 'Exit' %} </a>
+		</li>
+	</ul>
+
+	<div id="collaborative" style="display: none;">
+		<h4 id="collaborators-title">COLLABORATORS</h4>
+		<div class="row">
+			<ul id="user-list">
+
+			</ul>
+		</div>
+		<div id="chat">
+			<div id="chat-messages">
+				<ul id="message-list">
+
+				</ul>
+			</div>
+			<div>
+				<form id="chat-form">
+					<input type="text" id="message-text" autocomplete="off" placeholder="{% trans 'Send message' %}">
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div id="slide-options" style="display: none;">
+    <div class="row">
+        <div class="large-3 columns">
+            <div>
+                <a id="btn-edit-presentation" href="#" class="button secondary" data-tooltip title="{% trans 'Edit' %}"><i class="fi-pencil"> </i></a>
+            </div>
+            <div>
+                <a id="btn-delete-slide" href="#" class="button secondary" data-tooltip title="{% trans 'Delete' %}"><i class="fi-x"> </i></a>
+            </div>
+        </div>
+        <div class="large-4 columns">
+            <div>
+                <div id="change-size">
+                    <label>{% trans "Size" %}</label>
+                    <input id="input-scale" type="range" min="0.01" max="2" step="0.005" max="50"/>
+                </div>
+            </div>
+        </div>
+        <div class="large-5 columns">
+            <div>
+                <div id="change-rotation">
+                    <label for="">{% trans "Rotation" %}</label>
+                    <input id="input-rotation-z" name="z" type="range" value="0" min="-180" max="180" data-tooltip title="{% trans 'Rotate on Z axis' %}" style="display: block;"/>
+                    <input id="input-rotation-x" name="x" type="range" value="0" min="-180" max="180" data-tooltip title="{% trans 'Rotate on X axis' %}" style="display: block;"/>
+                    <input id="input-rotation-y" name="y" type="range" value="0" min="-180" max="180" data-tooltip title="{% trans 'Rotate on Y axis' %}" style="display: block;"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="new-component-box" style="display:none;">
+	<a id="btn-add-text" class="button secondary" href="#" data-dropdown="text-dropdown" data-options="is_hover:true" data-tooltip title="{% trans 'Add text' %}">{% trans "Text" %}</a>
+	<ul id="text-dropdown" data-dropdown-content class="f-dropdown">
+		<li>
+		<a id="btn-add-title" href="#" data-tooltip title="{% trans 'Add title' %}" style="font-family: {{presentation.theme.title_font}};color: {{presentation.theme.title_color}};background-color: {{presentation.theme.background_color}};">{% trans "Title" %}</a>
+		</li>
+		<li>
+		<a id="btn-add-subtitle" href="#" data-tooltip title="{% trans 'Add subtitle' %}" style="font-family: {{presentation.theme.subtitle_font}};color: {{presentation.theme.subtitle_color}};background-color: {{presentation.theme.background_color}};">{% trans "Subtitle" %}</a>
+		</li>
+		<li>
+		<a id="btn-add-body" href="#" data-tooltip title="{% trans 'Add body paragraph' %}" style="font-family: {{presentation.theme.body_font}};color: {{presentation.theme.body_color}};background-color: {{presentation.theme.background_color}};">{% trans "Body" %}</a>
+		</li>
+	</ul>
+
+	<a id="btn-add-image" class="button secondary" href="#" data-tooltip title="{% trans 'Add image' %}"><i class="fi-photo"> </i></a>
+	<a id="btn-add-video" class="button secondary" href="#" data-tooltip title="{% trans 'Add video' %}"><i class="fi-social-youtube"> </i></a>
+</div>
+
+<div id="toolbox-container">
+	<div id="toolbox-text" class="toolbox" style="display:none;">
+		<div class="row">
+			<!-- <a id="btn-increase-font" class="button secondary" data-tooltip title="{% trans 'Increase size' %}"> + </a>
+			<a id="btn-decrease-font" class="button secondary" data-tooltip title="{% trans 'Decrease size' %}"> - </a> -->
+			<a href="#" class="button secondary" data-dropdown="dropdown-font-size" data-options="is_hover:true">{% trans 'Size' %}</a>
+			<ul id="dropdown-font-size" class="f-dropdown" data-dropdown-content>
+				<li>
+					<a href="#" data-value="24">24px</a>
+				</li>
+				<li>
+					<a href="#" data-value="32">32px</a>
+				</li>
+				<li>
+					<a href="#" data-value="42">42px</a>
+				</li>
+				<li>
+					<a href="#" data-value="54">54px</a>
+				</li>
+				<li>
+					<a href="#" data-value="72">72px</a>
+				</li>
+				<li>
+					<a href="#" data-value="80">80px</a>
+				</li>
+				<li>
+					<a href="#" data-value="92">92px</a>
+				</li>
+				<li>
+					<a href="#" data-value="112">112px</a>
+				</li>
+				<li>
+					<a href="#" data-value="128">128px</a>
+				</li>
+				<li>
+					<a href="#"  data-value="152">152px</a>
+				</li>
+			</ul>
+			<a id="bold-btn" class="button secondary" data-tooltip title="{% trans 'Toggle bold' %}"><i class="fi-bold"> </i></a>
+			<a id="underlined-btn" class="button secondary" data-tooltip title="{% trans 'Toggle underline' %}"><i class="fi-underline"> </i></a>
+			<a id="italic-btn" class="button secondary" data-tooltip title="{% trans 'Toggle italic' %}"><i class="fi-italic"> </i></a>
+			<a id="link-btn" class="button secondary" data-tooltip title="{% trans 'Transform into link' %}"><i class="fi-link"> </i></a>
+			<a id="color-btn" class="button secondary" data-tooltip title="{% trans 'Change color' %}"><i class="fi-paint-bucket"> </i>
+			<input id="text-color" class="color {hash:true}" style="display:none;width:60px;border:none;"/>
+			</a>
+		</div>
+
+	</div>
+	<div id="toolbox-image" class="toolbox" style="display:none;">
+	</div>
+</div>
+
+<div id="add-image-box" class="reveal-modal small" data-reveal>
+	<form id="form-upload-image" method="post" action="">
+		<h2>{% trans 'Add image' %}</h2>
+		<label for="image">{% trans 'Load image file' %}</label>
+		<input type="file" id="image" name="image" accept="image/*" />
+		<p>{% trans "Warning: Images are uploaded to Imgur.com service. This means that if you don't load them within 6 months will be deleted." %}</p>
+		<h5>{% trans 'Or' %}</h5>
+		<label for="image_url">{% trans 'Load image URL' %}</label>
+		<input type="text" id="image-url" name="image-url" placeholder="http://"/>
+		<input type="button" class="button" id="btn-upload-image" value="{% trans 'Upload' %}">
+	</form>
+	<div id="image-preview">
+
+	</div>
+	<a class="close-reveal-modal">x</a>
+</div>
+
+<div id="add-video-box" class="reveal-modal small" data-reveal>
+	<h2>{% trans 'Add video' %}</h2>
+	<label>URL</label>
+	<input type="text" id="video-link">
+	<input type="button" class="button" id="btn-add-video-link" value="{% trans 'Add' %}">
+	<a class="close-reveal-modal">x</a>
+</div>
+
+<div id="add-link-box" class="reveal-modal small" data-reveal>
+	<div class="row collapse">
+		<div class="small-3 large-2 columns">
+			<span class="prefix">http://</span>
+		</div>
+		<div class="small-9 large-10 columns">
+			<input id="text-link" type="text">
+		</div>
+	</div>
+
+	<input id="btn-add-text-link" class="button" type="button" value="{% trans 'Add' %}">
+	<a class="close-reveal-modal">x</a>
+</div>
+
+<div id="themes-window" class="reveal-modal large" data-reveal>
+	<h3>{% trans 'Themes' %}</h3>
+	<ul id="themes-list" class="large-block-grid-6">
+
+	</ul>
+	<h3>{% trans 'Custom themes' %}</h3>
+	<ul id="custom-themes-list" class="large-block-grid-6">
+
+	</ul>
+	<a class="close-reveal-modal">x</a>
+</div>
+
+<div id="edit-theme-window" class="reveal-modal" data-reveal>
+
+</div>
+
+<div id="slide-notes-window" class="reveal-modal small" data-reveal>
+	<h2>{% trans 'Helping notes' %}</h2>
+	<h4>{% trans "This is shown by pressing 'p' key when you're presenting" %}</h4>
+	<textarea id="slide-notes" cols="30" rows="10"> </textarea>
+	<button id="btn-save-slide-notes">
+		{% trans 'Save' %}
+	</button>
+	<a class="close-reveal-modal">x</a>
+</div>
+
+<div id="share-window" class="reveal-modal medium" data-reveal>
+	{% autoescape off %}
+	{{share_form}}
+	{% endautoescape %}
+	<a class="close-reveal-modal">x</a>
+</div>
+
+<div id="options-window" class="reveal-modal small" data-reveal>
+	<form id="form-change-options" action="{% url 'presentation-change-options' presentation.id %}" method="post">
+		{% csrf_token %}
+		{{form_change_options}}
+		<hr />
+		<input type="submit" class="button" value="{% trans 'save' %}" />
+	</form>
+	<a class="close-reveal-modal">x</a>
+</div>
+
+<div id="impress">
+	<div id="slides">
+
+	</div>
+</div>
+
+<script src="{{STATIC_URL}}js/editor/impress_custom.js"></script>
+
+<!-- Templates -->
+
+<script id="template-slide-mini" type="text/mustache">
+	<div class='tip-right' data-tooltip title="{% trans 'Drag to change the order' %}">
+	<a class="btn-delete" href="#">
+	<i class="fi-x"></i>
+	</a>
+	<div class="slide-mini-preview">
+
+	</div>
+	</div>
+</script>
+
+<script id="template-component" type="text/mustache">
+	<div class="component-options" style="display:none;">
+	<a class="btn-move-component tip-left" data-tooltip title="{% trans 'Move' %}">
+	<i class="fi-arrows-out"></i>
+	</a>
+	<a class="btn-delete-component tip-left" data-tooltip title="{% trans 'Delete' %}">
+	<i class="fi-x"></i>
+	</a>
+	</div>
+</script>
+
+<script id="template-text-component" type="text/mustache">
+	<div class="text-content" contenteditable="true">
+	[[#link]]
+	<a href="[[link]]" class="link" target="_blank">
+	[[/link]]
+	[[&content]]
+	[[#link]]
+	</a>
+	[[/link]]
+	</div>
+</script>
+
+<script id="template-image-component" type="text/mustache">
+	<img src="
+	[[#url]]
+	[[url]]
+	[[/url]]
+	[[^url]]
+	{{STATIC_URL}}img/loading.gif
+	[[/url]]
+	" style="width: 100%; height: 100%;">
+	<div class="btn-image-resizer"><i class="fi-arrow-down"></i></div>
+</script>
+
+<script id="template-video-component" type="text/mustache">
+	<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="//[[url]]" frameborder="0" allowfullscreen></iframe>
+</script>
+
+<script id="template-user" type="text/mustache">
+	<li id="user-[[id]]" class="user" data-tooltip title="[[first_name]] [[last_name]]">
+	<i class="fi-torso" style="color:[[color]];"></i>
+	</li>
+</script>
+
+<script id="template-chat-message" type="text/mustache">
+	<li class="message">
+	<b>[[first_name]] [[last_name]]:</b> [[message]]
+	</li>
+</script>
+
+<script id="template-theme" type="text/mustache">
+	[[#themes]]
+	<li class="theme-item">
+	<a class="theme-link" href="#" data-theme-id="[[id]]">
+	<img src="[[image_preview]]">
+	<h6>[[name]]</h6>
+	</a>
+	</li>
+	[[/themes]]
+</script>
+
+<script id="template-custom-theme" type="text/mustache">
+	[[#custom]]
+	<li class="theme-item">
+	<a class="theme-link" href="#" data-theme-id="[[id]]">
+	<img src="[[image_preview]]">
+	<h6>[[name]]</h6>
+	</a>
+	<a href="/theme/delete/[[id]]" class="btn-delete-theme"><i class="fi-x"> </i></a>
+	</li>
+	[[/custom]]
+</script>
+
+<script id="template-image-preview" type="text/mustache">
+	<img src="[[url]]" width="100" />
+</script>
+
+{% endblock %}

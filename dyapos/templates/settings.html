@@ -1,0 +1,56 @@
+{% extends "base_home.html" %}
+{% load i18n %}
+
+{% block includes %}
+<title>{% trans 'Settings' %}</title>
+<link href="{{STATIC_URL}}css/settings.css" rel="stylesheet" />
+<script src="{{STATIC_URL}}js/settings.js"></script>
+{% endblock %}
+
+{% block home_content %}
+
+<div class="row">
+	<h1>{% trans 'Settings' %}</h1>
+</div>
+<div class="row">
+	<div class="large-7 columns">
+			<form method="post" action="{% url 'settings' %}">
+			{% csrf_token %}
+				<div class="panel">
+					<h2>{% trans 'Public information' %}</h2>
+					{{ profile_form }}
+				</div>
+				<div class="panel">
+					<h2>{% trans 'Account email' %}</h2>
+					{{ change_email_form }}
+				</div>
+				<button>
+					{% trans 'Save changes' %}
+				</button>
+			</form>
+	</div>
+	<div class="large-5 columns">
+		<div class="panel">
+			<a href="{% url 'password-change' %}">{% trans 'Change password' %}</a>
+		</div>
+		<div class="panel">
+			<a href="#" data-reveal-id="delete-account-dialog">{% trans 'Delete account' %} <i class="fi-alert"> </i></a>
+		</div>
+	</div>
+</div>
+
+<div id="delete-account-dialog" class="reveal-modal small" data-reveal>
+
+	<div>
+		<p>
+			{% trans 'Are you sure you want to delete your account and all data related to it?' %}
+		</p>
+		<p>
+			<b>{% trans 'Warning: This operation cannot be undone' %}</b>
+		</p>
+		<a id="btn-cancel-delete-account" class="button secondary">{% trans 'Cancel' %}</a>
+		<a href="{% url 'account-delete' %}" class="button alert">{% trans 'Delete account' %} <i class="fi-alert"> </i></a>
+	</div>
+	<a class="close-reveal-modal">x</a>
+</div>
+{% endblock %}
